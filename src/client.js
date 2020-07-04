@@ -1,0 +1,19 @@
+import { ApolloClient, ApolloLink } from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createHttpLink } from 'apollo-link-http';
+
+const httpLinkParams = {
+  uri: 'https://test-323.herokuapp.com/v1/graphql',
+  authorization: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im1xTFFXMDlNTUxRMUNNZGJpV3cwSyJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiXSwieC1oYXN1cmEtdXNlci1pZCI6ImdpdGh1YnwxMDI0MDAwMiJ9LCJuaWNrbmFtZSI6InJhaHVsYWtyaXNobmEiLCJuYW1lIjoiUmFodWwgQS4gS3Jpc2huYSIsInBpY3R1cmUiOiJodHRwczovL2F2YXRhcnMyLmdpdGh1YnVzZXJjb250ZW50LmNvbS91LzEwMjQwMDAyP3Y9NCIsInVwZGF0ZWRfYXQiOiIyMDIwLTA3LTA0VDEwOjA3OjU0LjQ4OVoiLCJpc3MiOiJodHRwczovL3Rlc3QtMzIzLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJnaXRodWJ8MTAyNDAwMDIiLCJhdWQiOiJNclVTM3NZTEpUU1paMzJpUjN4OUhwQWJ3MzlWVVJVaCIsImlhdCI6MTU5Mzg1NzI3NCwiZXhwIjoxNTkzODkzMjc0LCJhdF9oYXNoIjoiaEx3UmMwX1U1c0dmRlZsM0hWNEphQSIsIm5vbmNlIjoiY1h4ZHlCTFNHcDFOWnhpQ1VIVFRhNFFQbEJYZmJOTFUifQ.lCWO7WSwt42hDLB8isVBCCUcZgGNIV-T1EdvnKRW7jcPhT1wFayPBoQsYBOzAno-2OyKKqtQree4HQjAv8AKKuNGs3uXIb75CETEvHvtPDrP7U_Rrjwnmgv8oWQdAWQ2nmgR2FFo4o2eOYMEEObkaMQ_jGz3SBTh5C3zCEynv_AS9BCqEOiQWjdrl15r__bLwkbbtmbIR1prRftqkb71f-Fl7ezF8unP9JjEY-RTPe7rf3scOlhcEoNNSkde18rYPM2bBQ3_pg4maHr1lkpUEokRa-yB9uUzBm-bRi-Yc2OnO_wwJ6Yo54LmOvBwY2yekVPZypkxSp-1RLRssq863A`,
+};
+
+const httpLink = createHttpLink(httpLinkParams);
+
+const link = ApolloLink.from([httpLink]);
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link,
+});
+
+export default client;
