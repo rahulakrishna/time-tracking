@@ -1,10 +1,47 @@
 import { gql } from 'apollo-boost';
 
+export const CREATE_TASK_WITH_NEW_TAG = gql`
+  mutation createTask($title: String, $tag: String) {
+    insert_tasks_one(
+      object: {
+        title: $title
+        task_tags: { data: { tag: { data: { name: $tag } } } }
+      }
+    ) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const CREATE_TASK_WITH_EXISTING_TAG = gql`
+  mutation createTask($title: String, $tag_id: Int) {
+    insert_tasks_one(
+      object: { title: $title, task_tags: { data: { tag_id: $tag_id } } }
+    ) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const CREATE_TASK = gql`
-  mutation createTask($title: String) {
+  mutation createTask($title: String, $tag: String, $tag_id: Int) {
     insert_tasks_one(object: { title: $title }) {
       id
       title
+      tags {
+        id
+        name
+      }
     }
   }
 `;

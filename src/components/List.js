@@ -43,7 +43,12 @@ const List = () => {
       {data &&
         data.tasks.map(task => (
           <ListItem>
-            <b>{task.title}</b>
+            <b>
+              {task.title}{' '}
+              {task.tags.map(t => (
+                <span className="tag">{t.name}</span>
+              ))}
+            </b>
             <div className="actions">
               <IconButton aria-label="start" onClick={() => {}}>
                 <PlayArrowIcon />

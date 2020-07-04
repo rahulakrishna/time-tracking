@@ -5,6 +5,19 @@ export const GET_ALL_TASKS = gql`
     tasks {
       id
       title
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const GET_ALL_TAGS = gql`
+  query tags {
+    tags {
+      id
+      name
     }
   }
 `;

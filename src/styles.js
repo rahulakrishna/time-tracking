@@ -26,6 +26,14 @@ export const TaskTitleInput = styled.input`
   &:focus {
     outline: none;
   }
+  button {
+    &:focus {
+      outline: none;
+    }
+    &:active {
+      outline: none;
+    }
+  }
 `;
 
 export const ListContainer = styled.ul`
@@ -47,5 +55,12 @@ export const ListItem = styled.li`
   justify-content: space-between;
   .actions {
     text-align: right;
+  }
+  .tag {
+    font-size: 12px;
+    background: rgba(40, 50, 60, 0.5);
+    border-radius: 8px;
+    padding: 4px;
+    color: #fff;
   }
 `;
