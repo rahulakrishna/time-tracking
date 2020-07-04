@@ -63,4 +63,13 @@ export const ListItem = styled.li`
     padding: 4px;
     color: #fff;
   }
+  .task-title {
+    font-family: Lato;
+    border: none;
+    font-size: 24px;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+  }
 `;

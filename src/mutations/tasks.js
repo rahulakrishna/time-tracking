@@ -54,3 +54,16 @@ export const DELETE_TASK = gql`
     }
   }
 `;
+
+export const EDIT_TASK = gql`
+  mutation editTask($id: Int!, $title: String) {
+    update_tasks_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
