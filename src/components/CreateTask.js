@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { CREATE_TASK, CREATE_TASK_WITH_EXISTING_TAG } from 'mutations/tasks';
+import {
+  CREATE_TASK,
+  CREATE_TASK_WITH_EXISTING_TAG,
+  CREATE_TAG,
+} from 'mutations/tasks';
 import { GET_ALL_TASKS, GET_ALL_TAGS } from 'queries/tasks';
 import { CreateTaskContainer, TaskTitleInput } from 'styles';
 import { toast } from 'react-toastify';
@@ -68,9 +72,34 @@ const CreateTask = () => {
       },
     },
   );
+  const [createTag] = useMutation(CREATE_TAG, {
+    update: (cache, response) => {
+      console.log({ response });
+      const { tags } = cache.readQuery({
+        query: GET_ALL_TAGS,
+      });
+      cache.writeQuery({
+        query: GET_ALL_TAGS,
+        data: {
+          tags: [...tags, response.data.insert_tags_one],
+        },
+      });
+      selectTag(response.data.insert_tags_one.id);
+      setCreateTagMode(false);
+      setTagTitle('');
+    },
+    onError: e => {
+      toast('Something went wrong while creating tag', {
+        type: 'error',
+      });
+      console.log({ e });
+    },
+  });
   const { loading: tagsLoading, error: tagsError, data: tagsData } = useQuery(
     GET_ALL_TAGS,
   );
+  const [createTagMode, setCreateTagMode] = useState(false);
+  const [tagTitle, setTagTitle] = useState('');
   return (
     <CreateTaskContainer
       onSubmit={e => {
@@ -126,10 +155,60 @@ const CreateTask = () => {
                   onClick={() => {
                     selectTag(tag.id);
                   }}
+                  onBlur={() => setCreateTagMode(false)}
                 >
                   {tag.name}
                 </button>
               ))}
+            {!createTagMode ? (
+              <button
+                type="button"
+                style={{
+                  color: '#fff',
+                  background: '#dc7070',
+                  padding: '4px',
+                  borderRadius: '100%',
+                  margin: '4px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  width: '24px',
+                }}
+                onClick={() => setCreateTagMode(true)}
+              >
+                +
+              </button>
+            ) : (
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  createTag({
+                    variables: {
+                      name: tagTitle,
+                    },
+                  });
+                }}
+              >
+                <input
+                  type="text"
+                  value={tagTitle}
+                  onChange={e => setTagTitle(e.target.value)}
+                  placeholder="Enter tag name and press enter"
+                  onBlur={() => {
+                    // setCreateTagMode(false);
+                    // setTagTitle('');
+                  }}
+                  autoFocus
+                  style={{
+                    width: '250px',
+                    borderRadius: '4px',
+                    border: 'none',
+                    background: '#fff',
+                    boxShadow: '0px 0px 0.5px 0px',
+                  }}
+                />
+              </form>
+            )}
           </div>
           <div style={{ textAlign: 'right' }}>
             <button
@@ -145,7 +224,7 @@ const CreateTask = () => {
               }}
               disabled={title === ''}
             >
-              Submit
+              Click here or press enter to Submit
             </button>
           </div>
         </div>

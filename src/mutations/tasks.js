@@ -67,3 +67,12 @@ export const EDIT_TASK = gql`
     }
   }
 `;
+
+export const CREATE_TAG = gql`
+  mutation createTag($name: String) {
+    insert_tags_one(object: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
