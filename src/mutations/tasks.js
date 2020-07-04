@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from 'apollo-boost';
 
 export const CREATE_TASK = gql`
   mutation createTask($title: String) {

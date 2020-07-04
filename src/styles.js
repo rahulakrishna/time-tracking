@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   background: #fcfeec;
@@ -16,7 +16,7 @@ export const CreateTaskContainer = styled.form`
   width: 100%;
 `;
 export const TaskTitleInput = styled.input`
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   width: 100%;
   font-size: 24px;
   border: 0;
