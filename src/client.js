@@ -7,7 +7,9 @@ const httpLink = createHttpLink({
   uri: 'https://test-323.herokuapp.com/v1/graphql',
 });
 
-const token = process.env.REACT_APP_AUTH_TOKEN;
+// const token = process.env.REACT_APP_AUTH_TOKEN;
+
+const token = localStorage.getItem('token');
 
 const authLink = setContext((_, { headers }) => {
   return {

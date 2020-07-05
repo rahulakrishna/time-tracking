@@ -12,8 +12,22 @@ import { ListContainer, ListItem } from 'styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import useOnclickOutside from 'react-cool-onclickoutside';
 
-const List = () => {
+const List = ({ setAuthenticated }) => {
   const { loading, error, data } = useQuery(GET_ALL_TASKS);
+  useEffect(() => {
+    if (error) {
+      console.log({ error, code: error.graphQLErrors[0].extensions.code });
+    }
+    if (
+      error &&
+      (error.graphQLErrors[0].extensions.code === 'invalid-headers' ||
+        error.graphQLErrors[0].extensions.code === 'invalid-jwt')
+    ) {
+      setAuthenticated(false);
+    } else {
+      setAuthenticated(true);
+    }
+  }, [error, setAuthenticated]);
   const [deleteTask] = useMutation(DELETE_TASK, {
     update: (cache, response) => {
       if (response.data) {
